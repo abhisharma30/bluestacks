@@ -1,0 +1,27 @@
+<header class="navbar">
+  <div class="container">
+    <img src="../assets/images/logo.png" height="50" width="166"
+      alt=" BlueStacks Logo">
+      <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              English
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" (click)="switchLanguage('en')">English</a>
+            <a class="dropdown-item"(click)="switchLanguage('de')">German</a>
+          </div>
+        </div>
+  </div>
+</header>
+
+<div class="container">
+  <h1>{{'manage' | translate}} {{'campaigns' | translate}}</h1>
+  <div class="nav">
+    <a class="nav-link" routerLink="/campaign/upcoming" [ngClass]="{'active':type === 'upcoming'}">{{'upcoming' | translate }} {{'campaigns' | translate}}</a>
+    <a class="nav-link" routerLink="/campaign/live" [ngClass]="{'active':type === 'live'}">{{'live' | translate }} {{'campaigns' | translate}}</a>
+    <a class="nav-link" routerLink="/campaign/past" [ngClass]="{'active':type === 'past'}">{{'past' | translate }} {{'campaigns' | translate}}</a>
+  </div>
+  <hr>
+
+  <router-outlet></router-outlet>
+</div>

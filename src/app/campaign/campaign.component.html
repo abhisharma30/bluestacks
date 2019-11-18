@@ -1,0 +1,65 @@
+<div class="table-responsive mt-4">
+  <div *ngIf="!(campaigns | filter:type).length">No {{type | translate}} Campaigns</div>
+  <table class="table" *ngIf="(campaigns | filter:type).length">
+    <thead class="thead-light">
+      <tr>
+        <th class="text-left" scope="col">{{'date' | translate | uppercase}}</th>
+        <th class="text-left" scope="col">{{'campaign' | translate | uppercase}}</th>
+        <th class="text-left" scope="col">{{'view' | translate | uppercase}}</th>
+        <th class="text-left" scope="col">{{'actions' | translate | uppercase}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let campaign of campaigns | filter:type,let i = index">
+        <td class="top-aligned"><span>{{ campaign.createdOn | date }}</span><br />{{ campaign.createdOn | timeAgo }}
+        </td>
+        <td class="top-aligned">
+          <img src="../assets/images/campaign_{{i% 8}}.jpeg" height="40" />
+          <span>{{ campaign.name }}</span><br /><em>US</em>
+        </td>
+        <td>
+          <img class="cursor-pointer" src="../assets/images/price.jpeg" height="30" (click)="open(content, campaign, i)" />
+          <a data-toggle="modal">Price Info
+          </a>
+        </td>
+        <td class="actions">
+          <span><img src="../assets/images/csv.jpeg" height="30" />CSV</span>
+          <span><img src="../assets/images/report.jpeg" height="30" />Report</span>
+          <span>
+            <input class="form-control hide" placeholder="yyyy-mm-dd" name="dp" [ngModel]="date" ngbDatepicker
+              #d="ngbDatepicker" placement="bottom" [positionTarget]="buttonEl"
+              (ngModelChange)="onDateChange($event, campaign)">
+            <img src="../assets/images/schedule.jpeg" height="30" #buttonEl (click)="d.toggle()"
+              class="cursor-pointer" />Schedule Again</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #content let-c="close">
+  <div class="modal-body">
+    <div class="top-aligned">
+      <img src="../assets/images/campaign_{{selectedCampaign.index}}.jpeg" height="150" />
+      <span>{{selectedCampaign.name}}</span><br /><em>US</em>
+    </div>
+    <h4 class="pt-3">Pricing</h4>
+    <div class="row mt-3">
+      <div class="col-sm-6">1 week - 1 Month</div>
+      <div class="col-md-6 text-right"><span>${{selectedCampaign.price.month}}</span></div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-6">6 Months</div>
+      <div class="col-md-6 text-right"><span>${{selectedCampaign.price.halfyear}}</span></div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-6">1 Year</div>
+      <div class="col-md-6 text-right"><span>${{selectedCampaign.price.year}}</span></div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-2 offset-sm-5">
+        <button type="button" class="btn" (click)="c()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
